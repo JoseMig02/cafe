@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const UsuarioController_1 = require("../controllers/UsuarioController");
+const IsAdmin_1 = require("../middlewares/IsAdmin");
+const Multer_1 = require("../middlewares/Multer");
+const router = (0, express_1.Router)();
+router.post('/registro', UsuarioController_1.NewUser);
+router.post('/login', UsuarioController_1.loginUser);
+router.get('/usuarios', IsAdmin_1.validateToken, IsAdmin_1.isAdmin, UsuarioController_1.getAllUsers);
+router.get('/usuarios/:id', IsAdmin_1.validateToken, IsAdmin_1.isAdmin, UsuarioController_1.getUserById);
+router.put('/usuarios/:id', IsAdmin_1.validateToken, IsAdmin_1.isAdmin, UsuarioController_1.updateUserById);
+router.delete('/usuarios/:id', IsAdmin_1.validateToken, IsAdmin_1.isAdmin, UsuarioController_1.deleteUserById);
+router.post('/usuarios/:id/imagen', Multer_1.multerUpload.single('imagen'), UsuarioController_1.subirImagenUsuario);
+router.get('/usuarios/:id/imagen', UsuarioController_1.obtenerImagenusuario);
+exports.default = router;
